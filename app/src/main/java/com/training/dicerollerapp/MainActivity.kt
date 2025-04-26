@@ -1,31 +1,50 @@
 package com.training.dicerollerapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.training.dicerollerapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.rollButton.setOnClickListener { rollDice() }
+        binding.rollButton.setOnClickListener {
+            rollDice()
+        }
     }
 
     private fun rollDice(){
         val firstRandomNumber = (1..6).random()
         val secondRandomNumber = (1..6).random()
 
-        val diceImageOne = getDiceImage(firstRandomNumber)
-        val diceImageTwo = getDiceImage(secondRandomNumber)
+        val shakeAnimation1 = AnimationUtils.loadAnimation(this, R.anim.roll_shake)
+        val shakeAnimation2 = AnimationUtils.loadAnimation(this, R.anim.roll_shake)
 
-        binding.diceImage.setImageResource(diceImageOne)
-        binding.diceImageTwo.setImageResource(diceImageTwo)
+        shakeAnimation1.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationStart(animation: Animation?) {
+                // No Action Needed
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                binding.diceImage.setImageResource(getDiceImage(firstRandomNumber))
+                binding.diceImageTwo.setImageResource(getDiceImage(secondRandomNumber))
+
+                Toast.makeText(this@MainActivity, "You rolled 🎲 $firstRandomNumber and 🎲 $secondRandomNumber!", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+                // No Action Needed
+            }
+
+        })
+        binding.diceImage.startAnimation(shakeAnimation1)
+        binding.diceImageTwo.startAnimation(shakeAnimation2)
     }
 
     // Helper function to get the dice image based on roll
