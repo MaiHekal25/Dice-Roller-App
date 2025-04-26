@@ -19,13 +19,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun rollDice(){
         val randomNumber = (1..6).random()
-        when(randomNumber){
-            1 -> binding.diceImage.setImageResource(R.drawable.dice_1)
-            2 -> binding.diceImage.setImageResource(R.drawable.dice_2)
-            3 -> binding.diceImage.setImageResource(R.drawable.dice_3)
-            4 -> binding.diceImage.setImageResource(R.drawable.dice_4)
-            5 -> binding.diceImage.setImageResource(R.drawable.dice_5)
-            6 -> binding.diceImage.setImageResource(R.drawable.dice_6)
+        val diceImage = when(randomNumber){
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
         }
+        binding.diceImage.setImageResource(diceImage)
     }
 }
