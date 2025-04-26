@@ -18,8 +18,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun rollDice(){
-        val randomNumber = (1..6).random()
-        val diceImage = when(randomNumber){
+        val firstRandomNumber = (1..6).random()
+        val secondRandomNumber = (1..6).random()
+
+        val diceImageOne = getDiceImage(firstRandomNumber)
+        val diceImageTwo = getDiceImage(secondRandomNumber)
+
+        binding.diceImage.setImageResource(diceImageOne)
+        binding.diceImageTwo.setImageResource(diceImageTwo)
+    }
+
+    // Helper function to get the dice image based on roll
+    private fun getDiceImage(roll: Int) : Int{
+        return when(roll) {
             1 -> R.drawable.dice_1
             2 -> R.drawable.dice_2
             3 -> R.drawable.dice_3
@@ -27,6 +38,5 @@ class MainActivity : AppCompatActivity() {
             5 -> R.drawable.dice_5
             else -> R.drawable.dice_6
         }
-        binding.diceImage.setImageResource(diceImage)
     }
 }
